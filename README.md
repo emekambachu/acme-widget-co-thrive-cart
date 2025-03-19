@@ -18,3 +18,11 @@ This proof-of-concept implements the Acme Widget Co sales system using an MVC ar
 2. **Run on local server:**
     ```bash
     php -S localhost:8080 -t public
+
+3. **Start Docker:**
+    ```bash
+   docker-compose up --build
+   
+4. **PHP Stan Analysis:**
+    ```bash
+    /vendor/bin/phpstan analyse
