@@ -9,11 +9,16 @@ use App\Models\RedWidgetOffer;
 
 final class BasketTest extends TestCase
 {
+    public function setUp(): void
+    {
+
+    }
+
     public function testBasketTotalForRedWidgetPair(): void
     {
         // Define a test product configuration.
         $productsConfig = ['R01' => 32.95, 'G01' => 24.95, 'B01' => 7.95];
-        $catalogue = new ProductCatalogue($productsConfig);
+        $catalogue = new ProductCatalogue();
 
         // Define delivery rules as per business requirements.
         $deliveryRules = [
@@ -25,7 +30,7 @@ final class BasketTest extends TestCase
         ];
 
         // Create a basket instance with a red widget offer.
-        $basket = new Basket($catalogue, [new RedWidgetOffer()], new DeliveryCalculator(), $deliveryRules);
+        $basket = new Basket($catalogue, [new RedWidgetOffer()], new DeliveryCalculator());
 
         // Add two red widgets to trigger the offer.
         $basket->add('R01');
