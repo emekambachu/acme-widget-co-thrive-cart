@@ -10,6 +10,12 @@ namespace App\Models;
  */
 class DeliveryCalculator
 {
+    private array $deliveryRules;
+    public function __construct()
+    {
+        $this->deliveryRules = require __DIR__ . '/../../config/delivery.php';
+    }
+
     /**
      * Calculate the delivery fee based on the subtotal and configured rules.
      *
@@ -31,5 +37,10 @@ class DeliveryCalculator
             return $rules['cost_under90'];
         }
         return $rules['free'];
+    }
+
+    public function getDeliveryRules(): array
+    {
+        return $this->deliveryRules;
     }
 }

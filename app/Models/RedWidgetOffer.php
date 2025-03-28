@@ -10,9 +10,11 @@ class RedWidgetOffer implements OfferStrategyInterface
     public function apply(array $products): float
     {
         // Reindex the filtered array to ensure index 0 exists.
-        $redWidgets = array_values(array_filter($products, function($p) {
-            return $p->getCode() === self::TARGET_CODE;
-        }));
+        $redWidgets = array_values(
+            array_filter($products, function($p) {
+                return $p->getCode() === self::TARGET_CODE;
+            })
+        );
 
         $discount = 0.0;
         $count = count($redWidgets);

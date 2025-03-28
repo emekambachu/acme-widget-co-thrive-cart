@@ -11,9 +11,9 @@ namespace App\Models;
 class Product
 {
     // Unique product code (e.g., R01, G01, B01).
-    private string $code;
+    public string $code;
     // Price of the product.
-    private float $price;
+    public float $price;
 
     /**
      * Constructor to initialize the product.

@@ -11,14 +11,9 @@ use App\Models\DeliveryCalculator;
 use App\Models\Basket;
 
 // Load configuration files.
-$products = require __DIR__ . '/../config/products.php';
-$delivery = require __DIR__ . '/../config/delivery.php';
 $offersConfig = require __DIR__ . '/../config/offers.php';
 
-// Set up the product catalogue.
-$catalogue = new ProductCatalogue($products);
-
-// Instantiate the delivery calculator.
+$catalogue = new ProductCatalogue();
 $deliveryCalculator = new DeliveryCalculator();
 
 // Create offer instances.
@@ -45,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_code'])) {
 }
 
 // Create a new basket and populate it with product codes from the session.
-$basket = new Basket($catalogue, $offers, $deliveryCalculator, $delivery);
+$basket = new Basket($catalogue, $offers, $deliveryCalculator);
 foreach ($_SESSION['basket_items'] as $code) {
     $basket->add($code);
 }
@@ -54,7 +49,7 @@ foreach ($_SESSION['basket_items'] as $code) {
 if (isset($_GET['clear']) && $_GET['clear'] === '1') {
     $_SESSION['basket_items'] = [];
     // Reinitialize basket after clearing.
-    $basket = new Basket($catalogue, $offers, $deliveryCalculator, $delivery);
+    $basket = new Basket($catalogue, $offers, $deliveryCalculator);
 }
 ?>
 
@@ -95,8 +90,8 @@ if (isset($_GET['clear']) && $_GET['clear'] === '1') {
 <!-- Display available products for user convenience -->
 <h3>Available Products</h3>
 <ul>
-    <?php foreach ($products as $code => $price): ?>
-        <li><?= htmlspecialchars($code) ?> - $<?= number_format($price, 2) ?></li>
+    <?php foreach ($catalogue->getProducts() as $code => $value): ?>
+        <li><?= htmlspecialchars($code) ?> - $<?= number_format($value->price, 2) ?></li>
     <?php endforeach; ?>
 </ul>
 </body>

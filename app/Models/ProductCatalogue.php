@@ -14,17 +14,18 @@ class ProductCatalogue
      * @var Product[] Array of products indexed by product code.
      */
     private array $products;
+    private array $productsConfig;
 
     /**
      * Constructor loads products using a configuration array.
      *
-     * @param array $productsConfig An associative array of product codes and prices.
      */
-    public function __construct(array $productsConfig)
+    public function __construct()
     {
+        $this->productsConfig = require __DIR__ . '/../../config/products.php';
         $this->products = [];
-        foreach ($productsConfig as $code => $price) {
-            $this->products[$code] = new Product($code, $price);
+        foreach ($this->productsConfig as $code => $price) {
+            $this->products[$code] = new Product($code, (float)$price);
         }
     }
 
@@ -37,5 +38,15 @@ class ProductCatalogue
     public function getProduct(string $code): ?Product
     {
         return $this->products[$code] ?? null;
+    }
+
+    public function getProducts(): array
+    {
+        return $this->products;
+    }
+
+    public function getProductsConfig(): array
+    {
+        return $this->productsConfig;
     }
 }

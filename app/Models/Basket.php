@@ -18,7 +18,6 @@ class Basket
     /** @var OfferStrategyInterface[] */
     private array $offers;
     private DeliveryCalculator $deliveryCalculator;
-    private array $deliveryRules;
 
     /**
      * Basket constructor.
@@ -26,18 +25,15 @@ class Basket
      * @param ProductCatalogue         $catalogue          The product catalogue.
      * @param OfferStrategyInterface[] $offers             Array of offer strategies.
      * @param DeliveryCalculator       $deliveryCalculator The delivery calculator.
-     * @param array                    $deliveryRules      Delivery charge rules.
      */
     public function __construct(
         ProductCatalogue $catalogue,
         array $offers,
         DeliveryCalculator $deliveryCalculator,
-        array $deliveryRules
     ) {
         $this->catalogue          = $catalogue;
         $this->offers             = $offers;
         $this->deliveryCalculator = $deliveryCalculator;
-        $this->deliveryRules      = $deliveryRules;
     }
 
     /**
@@ -78,7 +74,7 @@ class Basket
         $subtotalAfterDiscount = $subtotal - $totalDiscount;
 
         // Calculate delivery charge based on the adjusted subtotal.
-        $delivery = $this->deliveryCalculator->calculate($subtotalAfterDiscount, $this->deliveryRules);
+        $delivery = $this->deliveryCalculator->calculate($subtotalAfterDiscount, $this->deliveryCalculator->getDeliveryRules());
 
         // Return the final total (subtotal after discount + delivery fee).
         return round($subtotalAfterDiscount + $delivery, 2);
